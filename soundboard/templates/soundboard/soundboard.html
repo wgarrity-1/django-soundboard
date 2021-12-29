@@ -1,0 +1,59 @@
+{# soundboard.html #}
+{# Soundboard page template for soundboard application #}
+{# Last modified: 12/28/2021 #}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ soundboard.soundboard_name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="{% static 'soundboard/css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'soundboard/css/soundboard.css' %}" />
+    
+    <!-- Javascript function for playing audio on click -->
+    <script>
+        
+        function playAudio(file) {
+            let audio = new Audio(file);
+            audio.play();
+        }
+        
+    </script>
+</head>
+<body>
+
+<header>
+    {{ soundboard.soundboard_name }}
+</header>
+
+<main>
+
+    {% for category in sound_categories %}
+    <!-- Sound category -->
+        <div class="category">
+            <div class="category_heading">{{ category.category_name }}</div>
+
+            <div class="sounds">
+                {% for sound in category.sound_set.all %}
+                    <button class="sound" onclick="playAudio('{{ sound.sound_file.url }}')">{{ sound.sound_name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    
+</main>    
+
+<footer>
+    <div class="created-by">Created by William Garrity</div>
+    <div class="links">
+        <a href="../" style="float: left">Back to Soundboard List</a>
+        <a href="https://github.com/wgarrity-1" style="float: right">Github</a>
+    </div>
+</footer>
+    
+</body>
+</html>
